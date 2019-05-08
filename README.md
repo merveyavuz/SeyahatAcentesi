@@ -1,6 +1,6 @@
 # SeyahatAcentesi
 
-Müşteri bilet almak istediğinde, hangi firmanın biletini istediğini ve tarih ile çıkış-varış noktalarını acente görevlisine bildirir.
+•Müşteri bilet almak istediğinde, hangi firmanın biletini istediğini ve tarih ile çıkış-varış noktalarını acente görevlisine bildirir.
 Görevli, aldığı bilgileri sistemi kullanarak ilgili firmanın bilet satış sistemine aktararak, mevcudiyet ve fiyat bilgilerini alır. 
 Müşteri onay verip ödemeyi yaparsa, bileti keser.  
  
@@ -16,3 +16,13 @@ verilmektedir. Bu puanları yönetim belirleyerek uygulamakta, istediğinde değ
 •Müşteri bilet ya da tatil rezervasyonu yaptığında, ödeme için biriken puanlarını da kullanabilir. 
 Bu durumda tutarda müşterinin puanı kadar indirim yapılır, indirilen tutar kadar puan silinir.
 
+
+<p>
+ <img src="/EkranGörüntüleri/1.PNG" width="400" title="ANA EKRAN">
+</p>
+<p>
+ <img src="/EkranGörüntüleri/2.PNG" width="400" title="ULAŞIM SEÇME EKRANI">
+</p>
+<p>
+  <img src="/EkranGörüntüleri/3.PNG" width="400" title="ÖDEME EKRANI">
+</p>
