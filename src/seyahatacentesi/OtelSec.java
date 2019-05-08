@@ -375,37 +375,44 @@ public class OtelSec extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel_araMouseExited
 
     private void jPanel_araMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_araMousePressed
+        if (jDateChooser_giris.getDate() == null || jDateChooser_cikis.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Verileri tam giriniz.");
+        } else {
+            otelDTM.setRowCount(0);
+            String il = jComboBox_iller.getSelectedItem().toString();
+            String odaTipi = jComboBox_odaTipi.getSelectedItem().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+            String girisTarihi = sdf.format(jDateChooser_giris.getDate());
+            String cikisTarihi = sdf.format(jDateChooser_cikis.getDate());
 
-        otelDTM.setRowCount(0);
-        String il = jComboBox_iller.getSelectedItem().toString();
-        String odaTipi = jComboBox_odaTipi.getSelectedItem().toString();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        String girisTarihi = sdf.format(jDateChooser_giris.getDate());
-        String cikisTarihi = sdf.format(jDateChooser_cikis.getDate());
+            System.out.println(il);
+            System.out.println(odaTipi);
+            System.out.println(girisTarihi);
+            System.out.println(cikisTarihi);
 
-        System.out.println(il);
-        System.out.println(odaTipi);
-        System.out.println(girisTarihi);
-        System.out.println(cikisTarihi);
+            try {
 
-        try {
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                String sorgu = "SELECT * FROM OTEL WHERE SEHIR='" + il + "' AND ODA_TIPI='" + odaTipi + "' AND GIRIS_TARIHI='" + girisTarihi + "' AND CIKIS_TARIHI='" + cikisTarihi + "' AND DURUM='Kiralanmamış'";
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-            String sorgu = "SELECT * FROM OTEL WHERE SEHIR='" + il + "' AND ODA_TIPI='" + odaTipi + "' AND GIRIS_TARIHI='" + girisTarihi + "' AND CIKIS_TARIHI='" + cikisTarihi + "' AND DURUM='Kiralanmamış'";
+                Statement stmt = con.createStatement();
 
-            Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(sorgu);
 
-            ResultSet rs = stmt.executeQuery(sorgu);
+                while (rs.next()) {
+                    otelDTM.addRow(new String[]{rs.getString(3), rs.getString(2), rs.getString(10), rs.getString(4), rs.getString(7), rs.getString(8), rs.getString(6)});
+                }
+                if (rs.next() == false) {
 
-            while (rs.next()) {
-                otelDTM.addRow(new String[]{rs.getString(3), rs.getString(2), rs.getString(10), rs.getString(4), rs.getString(7), rs.getString(8), rs.getString(6)});
+                    JOptionPane.showMessageDialog(rootPane, "Aradığınız kriterlerde oda bulunmamaktadır.");
+
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_jPanel_araMousePressed
 
     private void jPanel_detayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_detayMouseEntered
@@ -432,13 +439,18 @@ public class OtelSec extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel_detayMousePressed
 
     private void jButton_otelSecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_otelSecActionPerformed
-        int odaId = Integer.parseInt(otelDTM.getValueAt(jTable_oteller.getSelectedRow(), 0).toString());
 
-        OtelOdeme.getInfo(odaId);
+        if (jTable_oteller.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "SEÇİM YAPINIZ.", "UYARI...", HEIGHT);
+        } else {
+            int odaId = Integer.parseInt(otelDTM.getValueAt(jTable_oteller.getSelectedRow(), 0).toString());
 
-        setVisible(false); //you can't see me!
-        dispose();
-        new OtelKayit().setVisible(true);
+            OtelOdeme.getInfo(odaId);
+
+            setVisible(false); //you can't see me!
+            dispose();
+            new OtelKayit().setVisible(true);
+        }
     }//GEN-LAST:event_jButton_otelSecActionPerformed
 
     public void setColor(JPanel panel) {

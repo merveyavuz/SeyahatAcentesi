@@ -75,7 +75,6 @@ public class UlasimSec extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jComboBox_nereden = new javax.swing.JComboBox<>();
         jComboBox_nereye = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
         btn_ileri = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -210,10 +209,6 @@ public class UlasimSec extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 51, 153));
         jLabel6.setText("NEREYE");
 
-        jLabel7.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 51, 153));
-        jLabel7.setText("KİŞİ SAYISI");
-
         btn_ileri.setBackground(new java.awt.Color(0, 51, 153));
         btn_ileri.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         btn_ileri.setForeground(new java.awt.Color(255, 255, 255));
@@ -250,8 +245,7 @@ public class UlasimSec extends javax.swing.JFrame {
                                     .addComponent(radiobtn_otobus)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(radiobtn_havayolu))
-                                .addComponent(jLabel1))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel1)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,9 +299,7 @@ public class UlasimSec extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jDateChooser_donus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                 .addComponent(btn_ileri, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
         );
@@ -346,7 +338,7 @@ public class UlasimSec extends javax.swing.JFrame {
             try {
 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='OTOBUS' AND KONTENJAN>"+0+"";
+                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='OTOBUS' AND KONTENJAN>" + 0 + "";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
 
@@ -384,7 +376,7 @@ public class UlasimSec extends javax.swing.JFrame {
             try {
 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='UCAK' AND KONTENJAN>"+0+"";
+                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='UCAK' AND KONTENJAN>" + 0 + "";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
 
@@ -490,90 +482,89 @@ public class UlasimSec extends javax.swing.JFrame {
 
     private void btn_ileriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ileriActionPerformed
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        String gidisTarihi = sdf.format(jDateChooser_gidis.getDate());
-        String donusTarihi = "";
-        boolean seferVarMi = false;
-
-        if (jRadioButton_gidisDonus.isSelected()) {
-            donusTarihi = sdf.format(jDateChooser_donus.getDate());
-        }
-
-        
-        if (jRadioButton_gidisDonus.isSelected()) {
-            try {
-
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS-DONUS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString()
-                        + "' AND GIDIS_TARIHI='" + gidisTarihi + "' AND DONUS_TARIHI='" + donusTarihi + "'";
-
-                PreparedStatement stmt = con.prepareStatement(sorgu);
-
-                ResultSet rs = stmt.executeQuery();
-
-                while (rs.next()) {
-                    seferVarMi = true;
-
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-        if (jRadioButton_gidis.isSelected()) {
-            try {
-
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString()
-                        + "' AND GIDIS_TARIHI='" + gidisTarihi + "'";
-
-                PreparedStatement stmt = con.prepareStatement(sorgu);
-
-                ResultSet rs = stmt.executeQuery();
-
-                while (rs.next()) {
-
-                    seferVarMi = true;
-
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-        if (seferVarMi) {
-
-            String info[]=new String[7];  
-            info[0]=jComboBox_firmalar.getSelectedItem().toString();
-            if (jRadioButton_gidis.isSelected()) {
-                info[1]="GIDIS";
-                info[4]=gidisTarihi;
-            }
-            else if (jRadioButton_gidisDonus.isSelected()) {
-                info[1]="GIDIS-DONUS";
-                info[4]=gidisTarihi;
-                info[5]=donusTarihi;
-            }
-            info[2]=jComboBox_nereden.getSelectedItem().toString();
-            info[3]=jComboBox_nereye.getSelectedItem().toString();
-            
-            SonuclariListele.getInfo(info);
-            
-            
-//            int kisiSayisi = (Integer)jSpinner_kisiSayisi.getValue();
-//            KayitYap.getInfo(kisiSayisi);
-                    
-            setVisible(false);
-            dispose();
-            
-            new SonuclariListele().setVisible(true);
+        if (jRadioButton_gidisDonus.isSelected() && (jDateChooser_gidis.getDate()== null || jDateChooser_donus.getDate() == null)) {
+            JOptionPane.showMessageDialog(rootPane, "Verileri tam giriniz.");
+        } else if (jRadioButton_gidis.isSelected() && jDateChooser_gidis.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Verileri tam giriniz.");
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Aradığınız Özelliklerde Sefer Bulunmamaktadır.");
-        }
 
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+            String gidisTarihi = sdf.format(jDateChooser_gidis.getDate());
+            String donusTarihi = "";
+            boolean seferVarMi = false;
+
+            if (jRadioButton_gidisDonus.isSelected()) {
+                donusTarihi = sdf.format(jDateChooser_donus.getDate());
+            }
+
+            if (jRadioButton_gidisDonus.isSelected()) {
+                try {
+
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS-DONUS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString()
+                            + "' AND GIDIS_TARIHI='" + gidisTarihi + "' AND DONUS_TARIHI='" + donusTarihi + "'";
+
+                    PreparedStatement stmt = con.prepareStatement(sorgu);
+
+                    ResultSet rs = stmt.executeQuery();
+
+                    while (rs.next()) {
+                        seferVarMi = true;
+
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            if (jRadioButton_gidis.isSelected()) {
+                try {
+
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString()
+                            + "' AND GIDIS_TARIHI='" + gidisTarihi + "'";
+
+                    PreparedStatement stmt = con.prepareStatement(sorgu);
+
+                    ResultSet rs = stmt.executeQuery();
+
+                    while (rs.next()) {
+
+                        seferVarMi = true;
+
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
+            if (seferVarMi) {
+
+                String info[] = new String[7];
+                info[0] = jComboBox_firmalar.getSelectedItem().toString();
+                if (jRadioButton_gidis.isSelected()) {
+                    info[1] = "GIDIS";
+                    info[4] = gidisTarihi;
+                } else if (jRadioButton_gidisDonus.isSelected()) {
+                    info[1] = "GIDIS-DONUS";
+                    info[4] = gidisTarihi;
+                    info[5] = donusTarihi;
+                }
+                info[2] = jComboBox_nereden.getSelectedItem().toString();
+                info[3] = jComboBox_nereye.getSelectedItem().toString();
+
+                SonuclariListele.getInfo(info);
+
+                setVisible(false);
+                dispose();
+                new SonuclariListele().setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Aradığınız Özelliklerde Sefer Bulunmamaktadır.");
+            }
+        }
     }//GEN-LAST:event_btn_ileriActionPerformed
 
     private void jComboBox_firmalarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_firmalarActionPerformed
@@ -683,7 +674,6 @@ public class UlasimSec extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
