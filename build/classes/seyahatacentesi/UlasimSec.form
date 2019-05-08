@@ -187,11 +187,7 @@
                                       </Group>
                                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel7" min="-2" pref="119" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jSpinner_kisiSayisi" min="-2" pref="63" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel7" alignment="0" min="-2" pref="119" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -261,12 +257,9 @@
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="54" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jSpinner_kisiSayisi" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace pref="55" max="32767" attributes="0"/>
+                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="btn_ileri" min="-2" pref="63" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                   </Group>
@@ -455,8 +448,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="K&#x130;&#x15e;&#x130; SAYISI"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JSpinner" name="jSpinner_kisiSayisi">
             </Component>
             <Component class="javax.swing.JButton" name="btn_ileri">
               <Properties>

@@ -174,18 +174,18 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jComboBox1" alignment="0" min="-2" pref="168" max="-2" attributes="0"/>
-                                  <Component id="jComboBox2" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                                  <Component id="jComboBox_iller" alignment="0" min="-2" pref="168" max="-2" attributes="0"/>
+                                  <Component id="jComboBox_odaTipi" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLabel3" min="-2" pref="90" max="-2" attributes="0"/>
                                   <Component id="jLabel4" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jDateChooser1" pref="120" max="32767" attributes="0"/>
-                                  <Component id="jDateChooser2" max="32767" attributes="0"/>
+                                  <Component id="jDateChooser_giris" pref="164" max="32767" attributes="0"/>
+                                  <Component id="jDateChooser_cikis" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Component id="jPanel_ara" min="-2" max="-2" attributes="0"/>
@@ -204,17 +204,17 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboBox_iller" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jDateChooser_giris" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jDateChooser_cikis" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBox_odaTipi" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jPanel_ara" min="-2" max="-2" attributes="0"/>
@@ -243,7 +243,7 @@
                 <Property name="text" type="java.lang.String" value="&#x130;L"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
+            <Component class="javax.swing.JComboBox" name="jComboBox_iller">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="81">
@@ -346,7 +346,7 @@
                 <Property name="text" type="java.lang.String" value="G&#x130;R&#x130;&#x15e;"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser_giris">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
@@ -359,7 +359,7 @@
                 <Property name="text" type="java.lang.String" value="&#xc7;IKI&#x15e;"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser_cikis">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
@@ -372,7 +372,7 @@
                 <Property name="text" type="java.lang.String" value="ODA T&#x130;P&#x130;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox2">
+            <Component class="javax.swing.JComboBox" name="jComboBox_odaTipi">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
@@ -393,7 +393,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="jTable_oteller">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">

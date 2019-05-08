@@ -253,7 +253,7 @@
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_tutar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_tutar" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
@@ -375,7 +375,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCheckBox_tercih" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -405,7 +405,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox_tercih" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -425,7 +425,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+                <Component class="javax.swing.JCheckBox" name="jCheckBox_tercih">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Verdana" size="12" style="1"/>
@@ -436,7 +436,7 @@
                     <Property name="text" type="java.lang.String" value="&#xd6;deme i&#xe7;in puan kullanmak istiyorum."/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_tercihActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel14">
