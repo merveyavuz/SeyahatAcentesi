@@ -30,7 +30,6 @@ public class SonuclariListele extends javax.swing.JFrame {
     public static String nereye;
     public static String gidisTarihi;
     public static String donusTarihi;
-    public static int kisiSayisi;
 
     /**
      * Creates new form SonuclariListele
@@ -44,7 +43,6 @@ public class SonuclariListele extends javax.swing.JFrame {
         nereye = args[3];
         gidisTarihi = args[4];
         donusTarihi = args[5];
-        kisiSayisi = Integer.parseInt(args[6]);
 
         System.out.println(gelenFirma);
     }
@@ -72,10 +70,10 @@ public class SonuclariListele extends javax.swing.JFrame {
 
                 while (rs.next()) {
 
-                    if (Integer.parseInt(rs.getString(6)) > kisiSayisi) {
+//                    if (Integer.parseInt(rs.getString(6)) > kisiSayisi) {
                         seferDTM.addRow(new String[]{rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(7), rs.getString(8), rs.getString(11), rs.getString(12), rs.getString(9)});
 
-                    }
+//                    }
 
                 }
 
@@ -96,10 +94,10 @@ public class SonuclariListele extends javax.swing.JFrame {
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
-                    if (Integer.parseInt(rs.getString(6)) > kisiSayisi) {
+//                    if (Integer.parseInt(rs.getString(6)) > kisiSayisi) {
                         seferDTM.addRow(new String[]{rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(5), rs.getString(7), rs.getString(8), rs.getString(11), rs.getString(12), rs.getString(9)});
 
-                    }
+//                    }
 
                 }
 

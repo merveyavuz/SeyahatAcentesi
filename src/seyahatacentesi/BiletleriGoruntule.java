@@ -7,7 +7,6 @@ package seyahatacentesi;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,40 +14,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static seyahatacentesi.SonuclariListele.gelenFirma;
-import static seyahatacentesi.SonuclariListele.gidisTarihi;
-import static seyahatacentesi.SonuclariListele.nereden;
-import static seyahatacentesi.SonuclariListele.nereye;
-import static seyahatacentesi.SonuclariListele.yon;
 
 /**
  *
  * @author myavuz
  */
-public class MusteriListesiGoruntule extends javax.swing.JFrame {
+public class BiletleriGoruntule extends javax.swing.JFrame {
 
     /**
-     * Creates new form MusteriGoruntule
+     * Creates new form BiletleriGoruntule
      */
-    DefaultTableModel musteriDTM;
-
-    public MusteriListesiGoruntule() {
+     DefaultTableModel biletlerDTM;
+    public BiletleriGoruntule() {
         initComponents();
-        setResizable(false);
+         setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         
-        musteriDTM = new DefaultTableModel();
-        jTable_musteriler.setModel(musteriDTM);
-        musteriDTM.setColumnIdentifiers(new String[]{"TC", "İSİM", "SOYİSİM", "CİNSİYET", "TELEFON", "EMAIL"});
+        biletlerDTM = new DefaultTableModel();
+        jTable_biletler.setModel(biletlerDTM);
+        biletlerDTM.setColumnIdentifiers(new String[]{"BİLET ID","FIRMA","TC","İSİM", "SOYİSİM", "NEREDEN", "NEREYE", "SEFER_SAATI"});
         
         try {
             
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
             
-            String sorgu = "SELECT * FROM MUSTERI ";
+            String sorgu = "SELECT * FROM BILET ";
             
             PreparedStatement stmt = con.prepareStatement(sorgu);
             
@@ -56,7 +48,7 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
             
             while (rs.next()) {
                 
-                musteriDTM.addRow(new String[]{rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)});
+                biletlerDTM.addRow(new String[]{rs.getString(1), rs.getString(6), rs.getString(2), rs.getString(4), rs.getString(5), rs.getString(7), rs.getString(8), rs.getString(9)});
                 
             }
             
@@ -82,9 +74,8 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable_musteriler = new javax.swing.JTable();
+        jTable_biletler = new javax.swing.JTable();
         jLabel33 = new javax.swing.JLabel();
-        jButton_musteriDetayGoruntule = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,7 +139,7 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jTable_musteriler.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_biletler.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -159,36 +150,21 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable_musteriler);
+        jScrollPane1.setViewportView(jTable_biletler);
 
         jLabel33.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         jLabel33.setForeground(new java.awt.Color(0, 51, 153));
-        jLabel33.setText("MÜŞTERİLER");
-
-        jButton_musteriDetayGoruntule.setBackground(new java.awt.Color(0, 51, 204));
-        jButton_musteriDetayGoruntule.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jButton_musteriDetayGoruntule.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_musteriDetayGoruntule.setText("MÜŞTERİ DETAY GÖRÜNTÜLE");
-        jButton_musteriDetayGoruntule.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_musteriDetayGoruntuleActionPerformed(evt);
-            }
-        });
+        jLabel33.setText("BİLETLER");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addGap(335, 335, 335)
-                        .addComponent(jButton_musteriDetayGoruntule, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel33)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 973, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel33)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 973, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
@@ -198,9 +174,7 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
                 .addComponent(jLabel33)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jButton_musteriDetayGoruntule, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         jPanel15.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1040, 590));
@@ -225,21 +199,6 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
         new IslemSec().setVisible(true);
     }//GEN-LAST:event_jLabel32MousePressed
 
-    private void jButton_musteriDetayGoruntuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_musteriDetayGoruntuleActionPerformed
-        
-        if (jTable_musteriler.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "SEÇİM YAPINIZ.", "UYARI...", HEIGHT);
-        } else {
-            int id = Integer.parseInt(musteriDTM.getValueAt(jTable_musteriler.getSelectedRow(), 0).toString());
-            MusteriDetay.getInfo(id);
-            setVisible(false); //you can't see me!
-            dispose();
-            new MusteriDetay().setVisible(true);
-        }
-        
-
-    }//GEN-LAST:event_jButton_musteriDetayGoruntuleActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -257,29 +216,25 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MusteriListesiGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BiletleriGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MusteriListesiGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BiletleriGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MusteriListesiGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BiletleriGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MusteriListesiGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BiletleriGoruntule.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MusteriListesiGoruntule().setVisible(true);
+                new BiletleriGoruntule().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton_musteriDetayGoruntule;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
@@ -289,6 +244,6 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable_musteriler;
+    private javax.swing.JTable jTable_biletler;
     // End of variables declaration//GEN-END:variables
 }

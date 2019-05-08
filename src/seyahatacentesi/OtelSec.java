@@ -7,7 +7,19 @@ package seyahatacentesi;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import static java.awt.image.ImageObserver.HEIGHT;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,11 +30,37 @@ public class OtelSec extends javax.swing.JFrame {
     /**
      * Creates new form OtelSec
      */
+    DefaultTableModel otelDTM;
+
     public OtelSec() {
         initComponents();
-             setResizable(false);
+        setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
+        otelDTM = new DefaultTableModel();
+        jTable_oteller.setModel(otelDTM);
+        otelDTM.setColumnIdentifiers(new String[]{"ODA ID", "OTEL FIRMA", "SEHIR", "ODA TIPI", "GIRIS TARIHI", "CIKIS TARIHI", "FIYAT"});
+
+        try {
+
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+
+            String sorgu = "SELECT * FROM OTEL WHERE DURUM='Kiralanmamış'";
+
+            PreparedStatement stmt = con.prepareStatement(sorgu);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                otelDTM.addRow(new String[]{rs.getString(3), rs.getString(2), rs.getString(10), rs.getString(4), rs.getString(7), rs.getString(8), rs.getString(6)});
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -42,15 +80,15 @@ public class OtelSec extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox_iller = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser_giris = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooser_cikis = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox_odaTipi = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_oteller = new javax.swing.JTable();
         jButton_otelSec = new javax.swing.JButton();
         jPanel_ara = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -125,7 +163,7 @@ public class OtelSec extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 51, 153));
         jLabel2.setText("İL");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adana", "Adıyaman", "Afyon", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce" }));
+        jComboBox_iller.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adana", "Adıyaman", "Afyon", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce" }));
 
         jLabel3.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 51, 153));
@@ -139,9 +177,9 @@ public class OtelSec extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 51, 153));
         jLabel5.setText("ODA TİPİ");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tek Kişilik", "Çift Kişilik", "Aile Odaları" }));
+        jComboBox_odaTipi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tek Kişilik", "Çift Kişilik", "Aile Odaları" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_oteller.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -152,7 +190,7 @@ public class OtelSec extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable_oteller);
 
         jButton_otelSec.setBackground(new java.awt.Color(0, 51, 204));
         jButton_otelSec.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -264,16 +302,16 @@ public class OtelSec extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox_iller, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox_odaTipi, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(90, 90, 90)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jDateChooser_giris, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(jDateChooser_cikis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(29, 29, 29)
                         .addComponent(jPanel_ara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(56, Short.MAX_VALUE))
@@ -287,14 +325,14 @@ public class OtelSec extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel3)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox_iller, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel2))
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateChooser_giris, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jDateChooser_cikis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox_odaTipi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5))
                     .addComponent(jPanel_ara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
@@ -329,45 +367,88 @@ public class OtelSec extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel12MousePressed
 
     private void jPanel_araMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_araMouseEntered
-       setColor(jPanel_ara);
+        setColor(jPanel_ara);
     }//GEN-LAST:event_jPanel_araMouseEntered
 
     private void jPanel_araMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_araMouseExited
-         resetColor(jPanel_ara);
+        resetColor(jPanel_ara);
     }//GEN-LAST:event_jPanel_araMouseExited
 
     private void jPanel_araMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_araMousePressed
-       
+
+        otelDTM.setRowCount(0);
+        String il = jComboBox_iller.getSelectedItem().toString();
+        String odaTipi = jComboBox_odaTipi.getSelectedItem().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        String girisTarihi = sdf.format(jDateChooser_giris.getDate());
+        String cikisTarihi = sdf.format(jDateChooser_cikis.getDate());
+
+        System.out.println(il);
+        System.out.println(odaTipi);
+        System.out.println(girisTarihi);
+        System.out.println(cikisTarihi);
+
+        try {
+
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            String sorgu = "SELECT * FROM OTEL WHERE SEHIR='" + il + "' AND ODA_TIPI='" + odaTipi + "' AND GIRIS_TARIHI='" + girisTarihi + "' AND CIKIS_TARIHI='" + cikisTarihi + "' AND DURUM='Kiralanmamış'";
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sorgu);
+
+            while (rs.next()) {
+                otelDTM.addRow(new String[]{rs.getString(3), rs.getString(2), rs.getString(10), rs.getString(4), rs.getString(7), rs.getString(8), rs.getString(6)});
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jPanel_araMousePressed
 
     private void jPanel_detayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_detayMouseEntered
-       setColor(jPanel_detay);
+        setColor(jPanel_detay);
     }//GEN-LAST:event_jPanel_detayMouseEntered
 
     private void jPanel_detayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_detayMouseExited
-         resetColor(jPanel_detay);
+        resetColor(jPanel_detay);
     }//GEN-LAST:event_jPanel_detayMouseExited
 
     private void jPanel_detayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_detayMousePressed
-       setVisible(false); //you can't see me!
-        dispose();
-        new OtelDetay().setVisible(true);
+
+        if (jTable_oteller.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "SEÇİM YAPINIZ.", "UYARI...", HEIGHT);
+        } else {
+            int id = Integer.parseInt(otelDTM.getValueAt(jTable_oteller.getSelectedRow(), 0).toString());
+            OtelDetay.getInfo(id);
+            setVisible(false); //you can't see me!
+            dispose();
+            new OtelDetay().setVisible(true);
+        }
+
+
     }//GEN-LAST:event_jPanel_detayMousePressed
 
     private void jButton_otelSecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_otelSecActionPerformed
+        int odaId = Integer.parseInt(otelDTM.getValueAt(jTable_oteller.getSelectedRow(), 0).toString());
+
+        OtelOdeme.getInfo(odaId);
+
         setVisible(false); //you can't see me!
         dispose();
-        new KayitYap().setVisible(true);
+        new OtelKayit().setVisible(true);
     }//GEN-LAST:event_jButton_otelSecActionPerformed
 
-    
-         public void setColor(JPanel panel) {
+    public void setColor(JPanel panel) {
         panel.setBackground(new java.awt.Color(197, 197, 197));
     }
 
     public void resetColor(JPanel panel) {
         panel.setBackground(new java.awt.Color(240, 240, 240));
     }
+
     /**
      * @param args the command line arguments
      */
@@ -405,10 +486,10 @@ public class OtelSec extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_otelSec;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JComboBox<String> jComboBox_iller;
+    private javax.swing.JComboBox<String> jComboBox_odaTipi;
+    private com.toedter.calendar.JDateChooser jDateChooser_cikis;
+    private com.toedter.calendar.JDateChooser jDateChooser_giris;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -427,6 +508,6 @@ public class OtelSec extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_ara;
     private javax.swing.JPanel jPanel_detay;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_oteller;
     // End of variables declaration//GEN-END:variables
 }

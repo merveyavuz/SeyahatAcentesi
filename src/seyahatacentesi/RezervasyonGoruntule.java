@@ -7,6 +7,14 @@ package seyahatacentesi;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,11 +25,37 @@ public class RezervasyonGoruntule extends javax.swing.JFrame {
     /**
      * Creates new form RezervasyonGoruntule
      */
+    DefaultTableModel rezervasyonDTM;
+
     public RezervasyonGoruntule() {
         initComponents();
-                 setResizable(false);
+        setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
+        rezervasyonDTM = new DefaultTableModel();
+        jTable_rezervasyonlar.setModel(rezervasyonDTM);
+        rezervasyonDTM.setColumnIdentifiers(new String[]{"REZERVASYON ID", "FIRMA", "TC", "İSİM", "SOYİSİM", "ODA ID", "GİRİŞ TARİHİ", "ÇIKIŞ TARİHİ"});
+
+        try {
+
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+
+            String sorgu = "SELECT * FROM REZERVASYON ";
+
+            PreparedStatement stmt = con.prepareStatement(sorgu);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                rezervasyonDTM.addRow(new String[]{rs.getString(1), rs.getString(8), rs.getString(2), rs.getString(4), rs.getString(5), rs.getString(3), rs.getString(7), rs.getString(9)});
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -41,7 +75,7 @@ public class RezervasyonGoruntule extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_rezervasyonlar = new javax.swing.JTable();
         jLabel29 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,7 +140,7 @@ public class RezervasyonGoruntule extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_rezervasyonlar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -117,7 +151,7 @@ public class RezervasyonGoruntule extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable_rezervasyonlar);
 
         jLabel29.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(0, 51, 153));
@@ -211,6 +245,6 @@ public class RezervasyonGoruntule extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_rezervasyonlar;
     // End of variables declaration//GEN-END:variables
 }

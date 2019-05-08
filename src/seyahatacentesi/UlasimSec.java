@@ -36,7 +36,6 @@ public class UlasimSec extends javax.swing.JFrame {
         jComboBox_firmalar.setEnabled(false);
         jComboBox_nereden.setEnabled(false);
         jComboBox_nereye.setEnabled(false);
-        jSpinner_kisiSayisi.setEnabled(false);
         jDateChooser_donus.setEnabled(false);
         jDateChooser_gidis.setEnabled(false);
         btn_ileri.setEnabled(false);
@@ -77,7 +76,6 @@ public class UlasimSec extends javax.swing.JFrame {
         jComboBox_nereden = new javax.swing.JComboBox<>();
         jComboBox_nereye = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jSpinner_kisiSayisi = new javax.swing.JSpinner();
         btn_ileri = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -253,10 +251,7 @@ public class UlasimSec extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(radiobtn_havayolu))
                                 .addComponent(jLabel1))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jSpinner_kisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,11 +305,9 @@ public class UlasimSec extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jDateChooser_donus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jSpinner_kisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(38, 38, 38)
                 .addComponent(btn_ileri, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
         );
@@ -353,7 +346,7 @@ public class UlasimSec extends javax.swing.JFrame {
             try {
 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='OTOBUS'";
+                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='OTOBUS' AND KONTENJAN>"+0+"";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
 
@@ -391,7 +384,7 @@ public class UlasimSec extends javax.swing.JFrame {
             try {
 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='UCAK'";
+                String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='UCAK' AND KONTENJAN>"+0+"";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
 
@@ -421,7 +414,6 @@ public class UlasimSec extends javax.swing.JFrame {
         btn_ileri.setEnabled(true);
         jDateChooser_gidis.setEnabled(true);
         jComboBox_nereye.setEnabled(true);
-        jSpinner_kisiSayisi.setEnabled(true);
         jDateChooser_donus.setEnabled(false);
         jComboBox_nereden.removeAllItems();
         if (jRadioButton_gidis.isSelected()) {
@@ -461,7 +453,6 @@ public class UlasimSec extends javax.swing.JFrame {
         jComboBox_nereye.setEnabled(true);
         jDateChooser_gidis.setEnabled(true);
         jDateChooser_donus.setEnabled(true);
-        jSpinner_kisiSayisi.setEnabled(true);
         btn_ileri.setEnabled(true);
 
         if (jRadioButton_gidisDonus.isSelected()) {
@@ -568,7 +559,6 @@ public class UlasimSec extends javax.swing.JFrame {
             }
             info[2]=jComboBox_nereden.getSelectedItem().toString();
             info[3]=jComboBox_nereye.getSelectedItem().toString();
-            info[6]=jSpinner_kisiSayisi.getValue().toString();
             
             SonuclariListele.getInfo(info);
             
@@ -700,7 +690,6 @@ public class UlasimSec extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JRadioButton jRadioButton_gidis;
     private javax.swing.JRadioButton jRadioButton_gidisDonus;
-    private javax.swing.JSpinner jSpinner_kisiSayisi;
     private javax.swing.JRadioButton radiobtn_havayolu;
     private javax.swing.JRadioButton radiobtn_otobus;
     // End of variables declaration//GEN-END:variables

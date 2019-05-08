@@ -5,40 +5,40 @@
  */
 package seyahatacentesi;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import static seyahatacentesi.Odeme.seferId;
+import static seyahatacentesi.Odeme.tc;
 
 /**
  *
  * @author myavuz
  */
-public class Odeme extends javax.swing.JFrame {
+public class OtelOdeme extends javax.swing.JFrame {
 
     /**
-     * Creates new form Odeme
+     * Creates new form OtelOdeme
      */
     public static int tc;
-    public static int seferId;
+    public static int odaId;
     public static int kullanilacakPuan;
     public static boolean puanKullanabilir = false;
 
-    public static void getInfo(int id) {
-        seferId = id;
+    public static void getInfo(int odaid) {
+        odaId = odaid;
 
     }
 
@@ -47,13 +47,15 @@ public class Odeme extends javax.swing.JFrame {
 
     }
 
-    public Odeme() {
+    public OtelOdeme() {
         initComponents();
-        jSpinner_puan.setEnabled(false);
-        jButton_puanKullan.setEnabled(false);
         setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
+        System.out.println(odaId);
+        System.out.println(tc);
+
 
         try {
 
@@ -78,10 +80,55 @@ public class Odeme extends javax.swing.JFrame {
             Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        
+        String girisTarihi = "";
+            String cikisTarihi = "";
+            int OdaFiyati = 0;
+            int odenecekFiyat = 0;
+
+            Calendar cal1 = new GregorianCalendar();
+            Calendar cal2 = new GregorianCalendar();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+            try {
+
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
+
+                Statement stmt = con.createStatement();
+
+                ResultSet rs = stmt.executeQuery(sorgu);
+
+                if (rs.next()) {
+
+                    girisTarihi = rs.getString("GIRIS_TARIHI");
+                    cikisTarihi = rs.getString("CIKIS_TARIHI");
+                    OdaFiyati = Integer.parseInt(rs.getString("ODA_FIYATI"));
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Date date;
+            try {
+                date = sdf.parse(girisTarihi);
+                cal1.setTime(date);
+                date = sdf.parse(cikisTarihi);
+                cal2.setTime(date);
+            } catch (ParseException ex) {
+                Logger.getLogger(OtelOdeme.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            int gunSayisi = daysBetween(cal1.getTime(), cal2.getTime());
+            odenecekFiyat = gunSayisi * OdaFiyati;
+            System.out.println(odenecekFiyat);
+            
         try {
 
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-            String sorgu = "SELECT * FROM SEFER";
+            String sorgu = "SELECT * FROM OTEL";
 
             Statement stmt = con.createStatement();
 
@@ -89,10 +136,10 @@ public class Odeme extends javax.swing.JFrame {
 
             while (rs.next()) {
 
-                if (Integer.parseInt(rs.getString("SEFER_ID")) == seferId) {
+                if (Integer.parseInt(rs.getString("ODA_ID")) == odaId) {
 
-                    lbl_tutar.setText(rs.getString("SEFER_FIYATI"));
-                    lbl_bonusPuan.setText("SATIN ALACAĞINIZ BİLET İLE KAZANACAĞINIZ PUAN: " + rs.getString("BONUS_PUAN"));
+                    lbl_tutar.setText(odenecekFiyat+"");
+                    lbl_bonusPuan.setText("SATIN ALACAĞINIZ BİLET İLE KAZANACAĞINIZ PUAN: " + rs.getString("OTEL_PUAN"));
                     break;
                 }
 
@@ -411,11 +458,11 @@ public class Odeme extends javax.swing.JFrame {
                         .addGap(72, 72, 72)))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(lbl_tutar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_tutar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
                 .addGap(42, 42, 42)
                 .addComponent(jButton_SatinAl, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1040, 590));
@@ -438,7 +485,6 @@ public class Odeme extends javax.swing.JFrame {
         setVisible(false);
         dispose();
         new KayitYap().setVisible(true);
-
     }//GEN-LAST:event_jLabel12MousePressed
 
     private void jButton_SatinAlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SatinAlActionPerformed
@@ -446,13 +492,15 @@ public class Odeme extends javax.swing.JFrame {
         if (txt_kartAdi.getText().compareTo("") != 0 || txt_kartNo.getText().compareTo("") != 0) {
 
             int eskiPuan = 0;
-            int seferPuan = 0;
+            int otelPuan = 0;
             String isim = "";
             String soyisim = "";
             String firma = "";
-            String nereden = "";
-            String nereye = "";
-            String seferSaati = "";
+            String odaTipi = "";
+            String girisTarihi = "";
+            String cikisTarihi = "";
+            int OdaFiyati = 0;
+            int odenecekFiyat = 0;
 
             //MUSTERI KART BILGILERI SET
             if (txt_kartAdi.getText().compareTo("") != 0 || txt_kartNo.getText().compareTo("") != 0) {
@@ -481,37 +529,56 @@ public class Odeme extends javax.swing.JFrame {
                     }
 
                 } catch (SQLException ex) {
-                    Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GirisYap.class.getName()).log(Level.ALL.SEVERE, null, ex);
                 }
 
             }
 
-            //SEFER PUAN ALMA
+            //OTEL PUAN ALMA
             try {
 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT * FROM SEFER WHERE SEFER_ID=" + seferId;
+                String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
 
                 Statement stmt = con.createStatement();
 
                 ResultSet rs = stmt.executeQuery(sorgu);
 
                 if (rs.next()) {
-                    firma = rs.getString("FIRMA");
-                    nereden = rs.getString("NEREDEN");
-                    nereye = rs.getString("NEREYE");
-                    seferSaati = rs.getString("SEFER_SAATI");
-                    seferPuan = Integer.parseInt(rs.getString("BONUS_PUAN"));
+                    firma = rs.getString("OTEL_FIRMA");
+                    odaTipi = rs.getString("ODA_TIPI");
+                    girisTarihi = rs.getString("GIRIS_TARIHI");
+                    cikisTarihi = rs.getString("CIKIS_TARIHI");
+                    otelPuan = Integer.parseInt(rs.getString("OTEL_PUAN"));
+                    OdaFiyati = Integer.parseInt(rs.getString("ODA_FIYATI"));
                 }
 
             } catch (SQLException ex) {
                 Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            Calendar cal1 = new GregorianCalendar();
+            Calendar cal2 = new GregorianCalendar();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+            Date date;
+            try {
+                date = sdf.parse(girisTarihi);
+                cal1.setTime(date);
+                date = sdf.parse(cikisTarihi);
+                cal2.setTime(date);
+            } catch (ParseException ex) {
+                Logger.getLogger(OtelOdeme.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            int gunSayisi = daysBetween(cal1.getTime(), cal2.getTime());
+            odenecekFiyat = gunSayisi * OdaFiyati;
+
             //MUSTERI PUAN GUNCELLEME
             if (puanKullanabilir == true) {
 
-                int yeniPuan = eskiPuan - Integer.parseInt(jSpinner_puan.getValue().toString()) + seferPuan;
+                int yeniPuan = eskiPuan - Integer.parseInt(jSpinner_puan.getValue().toString()) + otelPuan;
                 try {
 
                     Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
@@ -541,7 +608,7 @@ public class Odeme extends javax.swing.JFrame {
 
                     ResultSet rs = stmt.executeQuery(sorgu);
 
-                    int bonussuzPuan = eskiPuan + seferPuan;
+                    int bonussuzPuan = eskiPuan + otelPuan;
                     if (rs.next()) {
                         System.out.println("UPDATE MUSTERI SET PUAN=" + bonussuzPuan + " WHERE TC=" + tc + "");
                         stmt.executeUpdate("UPDATE MUSTERI SET PUAN=" + bonussuzPuan + " WHERE TC=" + tc + "");
@@ -553,22 +620,19 @@ public class Odeme extends javax.swing.JFrame {
 
             }
 
-            //KONTENJANDAN DÜŞME
-            int kontenjan = 0;
+            //DURUM DEGISTIRME
             try {
 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT * FROM SEFER WHERE SEFER_ID=" + seferId;
+                String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
 
                 Statement stmt = con.createStatement();
 
                 ResultSet rs = stmt.executeQuery(sorgu);
 
                 if (rs.next()) {
-                    kontenjan = Integer.parseInt(rs.getString("KONTENJAN"));
-                    kontenjan = kontenjan - 1;
-                    System.out.println("UPDATE SEFER SET KONTENJAN=" + kontenjan + " WHERE SEFER_ID=" + seferId + "");
-                    stmt.executeUpdate("UPDATE SEFER SET KONTENJAN=" + kontenjan + " WHERE SEFER_ID=" + seferId + "");
+
+                    stmt.executeUpdate("UPDATE OTEL SET DURUM='Kiralanmış' WHERE ODA_ID=" + odaId);
                 }
 
             } catch (SQLException ex) {
@@ -578,18 +642,18 @@ public class Odeme extends javax.swing.JFrame {
             try {
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
                 Statement s2 = con.createStatement();
-                String sql = "SELECT MAX(BILET_ID) MAX_ID FROM BILET";
+                String sql = "SELECT MAX(REZERVASYON_ID) MAX_ID FROM REZERVASYON";
                 ResultSet idMax = s2.executeQuery(sql);
-                int biletId = 0;
+                int rezervasyonId = 0;
 
                 if (idMax.next()) {
-                    biletId = idMax.getInt("MAX_ID") + 1;
+                    rezervasyonId = idMax.getInt("MAX_ID") + 1;
                 }
 
                 Statement s3 = con.createStatement();
-                String sorgu2 = "INSERT INTO BILET (BILET_ID, TC , SEFER_ID , ISIM ,SOYISIM ,FIRMA ,NEREDEN,NEREYE, SEFER_SAATI) VALUES ("
-                        + biletId + "," + tc + "," + seferId + ",'" + isim + "', '" + soyisim + "', '" + firma
-                        + "','" + nereden + "','" + nereye + "','" + seferSaati + "')";
+                String sorgu2 = "INSERT INTO REZERVASYON (REZERVASYON_ID, TC , ODA_ID , ISIM ,SOYISIM ,ODA_TIPI ,GIRIS_TARIHI,CIKIS_TARIHI, OTEL_FIRMA,FIYAT) VALUES ("
+                        + rezervasyonId + "," + tc + "," + odaId + ",'" + isim + "', '" + soyisim + "', '" + odaTipi
+                        + "','" + girisTarihi + "','" +firma+"','" + cikisTarihi + "'," + odenecekFiyat + ")";
 
                 s3.executeUpdate(sorgu2);
 
@@ -602,7 +666,7 @@ public class Odeme extends javax.swing.JFrame {
             dispose();
             new IslemSec().setVisible(true);
         } else {
-            
+
             JOptionPane.showMessageDialog(rootPane, "BOŞ ALANLARI DOLDURUNUZ.", "", HEIGHT);
         }
     }//GEN-LAST:event_jButton_SatinAlActionPerformed
@@ -647,10 +711,53 @@ public class Odeme extends javax.swing.JFrame {
                 Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            String girisTarihi = "";
+            String cikisTarihi = "";
+            int OdaFiyati = 0;
+            int odenecekFiyat = 0;
+
+            Calendar cal1 = new GregorianCalendar();
+            Calendar cal2 = new GregorianCalendar();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
             try {
 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                String sorgu = "SELECT * FROM SEFER";
+                String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
+
+                Statement stmt = con.createStatement();
+
+                ResultSet rs = stmt.executeQuery(sorgu);
+
+                if (rs.next()) {
+
+                    girisTarihi = rs.getString("GIRIS_TARIHI");
+                    cikisTarihi = rs.getString("CIKIS_TARIHI");
+                    OdaFiyati = Integer.parseInt(rs.getString("ODA_FIYATI"));
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Date date;
+            try {
+                date = sdf.parse(girisTarihi);
+                cal1.setTime(date);
+                date = sdf.parse(cikisTarihi);
+                cal2.setTime(date);
+            } catch (ParseException ex) {
+                Logger.getLogger(OtelOdeme.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            int gunSayisi = daysBetween(cal1.getTime(), cal2.getTime());
+            odenecekFiyat = gunSayisi * OdaFiyati;
+
+            try {
+
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                String sorgu = "SELECT * FROM OTEL";
 
                 Statement stmt = con.createStatement();
 
@@ -658,22 +765,26 @@ public class Odeme extends javax.swing.JFrame {
 
                 while (rs.next()) {
 
-                    if (Integer.parseInt(rs.getString("SEFER_ID")) == seferId) {
+                    if (Integer.parseInt(rs.getString("ODA_ID")) == odaId) {
 
-                        lbl_tutar.setText(rs.getString("SEFER_FIYATI"));
-                        lbl_bonusPuan.setText("SATIN ALACAĞINIZ BİLET İLE KAZANACAĞINIZ PUAN: " + rs.getString("BONUS_PUAN"));
+                        lbl_tutar.setText(odenecekFiyat + "");
+                        lbl_bonusPuan.setText("SATIN ALACAĞINIZ BİLET İLE KAZANACAĞINIZ PUAN: " + rs.getString("OTEL_PUAN"));
                         break;
                     }
 
                 }
-
             } catch (SQLException ex) {
                 Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-
     }//GEN-LAST:event_jCheckBox_tercihActionPerformed
+
+    private void jSpinner_puanStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_puanStateChanged
+
+        kullanilacakPuan = Integer.parseInt(jSpinner_puan.getValue().toString());
+        lbl_indirim.setText("" + kullanilacakPuan * 2);
+    }//GEN-LAST:event_jSpinner_puanStateChanged
 
     private void jButton_puanKullanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_puanKullanActionPerformed
         kullanilacakPuan = Integer.parseInt(jSpinner_puan.getValue().toString());
@@ -711,11 +822,9 @@ public class Odeme extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_puanKullanActionPerformed
 
-    private void jSpinner_puanStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_puanStateChanged
-
-        kullanilacakPuan = Integer.parseInt(jSpinner_puan.getValue().toString());
-        lbl_indirim.setText("" + kullanilacakPuan * 2);
-    }//GEN-LAST:event_jSpinner_puanStateChanged
+    public int daysBetween(Date d1, Date d2) {
+        return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    }
 
     /**
      * @param args the command line arguments
@@ -734,20 +843,20 @@ public class Odeme extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Odeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelOdeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Odeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelOdeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Odeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelOdeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Odeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelOdeme.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Odeme().setVisible(true);
+                new OtelOdeme().setVisible(true);
             }
         });
     }

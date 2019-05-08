@@ -15,36 +15,23 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static seyahatacentesi.SonuclariListele.donusTarihi;
-import static seyahatacentesi.SonuclariListele.gelenFirma;
-import static seyahatacentesi.SonuclariListele.gidisTarihi;
-import static seyahatacentesi.SonuclariListele.nereden;
-import static seyahatacentesi.SonuclariListele.nereye;
-import static seyahatacentesi.SonuclariListele.yon;
 
 /**
  *
  * @author myavuz
  */
-public class KayitYap extends javax.swing.JFrame {
+public class OtelKayit extends javax.swing.JFrame {
 
     /**
-     * Creates new form KayitOl
+     * Creates new form OtelKayit
      */
-//    public static int counter = 1;
-//    public static int kisiSayisi;
-//
-//    public static void getInfo(int sayi) {
-//        kisiSayisi = sayi;
-//        System.out.println("SAYİ: " + kisiSayisi);
-//    }
-
     public static String secilenId;
-    public KayitYap() {
+    public OtelKayit() {
         initComponents();
-        setResizable(false);
+         setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
         btn_ileri.setEnabled(false);
     }
 
@@ -344,60 +331,51 @@ public class KayitYap extends javax.swing.JFrame {
         boolean varMi = false;
         String str = "NULL";
 
-     
-            try {
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-                Statement s = con.createStatement();
+        try {
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Statement s = con.createStatement();
 
-                String sorgu = "SELECT * FROM MUSTERI";
+            String sorgu = "SELECT * FROM MUSTERI";
 
-                ResultSet rs = s.executeQuery(sorgu);
+            ResultSet rs = s.executeQuery(sorgu);
 
-                while (rs.next()) {
-                    if (rs.getString("TC").compareTo(tc) == 0) {
-                        varMi = true;
-                        secilenId=txt_tc.getText();
-                        break;
-                    }
-                }
-
-               
-                if (varMi) {
-              
-                    
-                } else {
-
-                    Statement s2 = con.createStatement();
-                    String sorgu2 = "INSERT INTO MUSTERI (TC,ISIM,SOYISIM,CINSIYET,TELEFON,EMAIL,DOGUM_TARIHI,PUAN, KART_ADI, KART_NO, KART_SKT_M, KART_SKT_Y) VALUES ("
-                            + tc + ",'" + isim + "', '" + soyisim + "', '" + cinsiyet
-                            + "','" + tel + "','" + mail + "','" + dogumTarihi + "'," + 0 + ",'" + str + "','" + str + "','" + str + "'," + 0 + ")";
-
-                    s2.executeUpdate(sorgu2);
+            while (rs.next()) {
+                if (rs.getString("TC").compareTo(tc) == 0) {
+                    varMi = true;
                     secilenId=txt_tc.getText();
-                    btn_ileri.setEnabled(true);
-                    btn_kayit.setEnabled(false);
-                    temizler();
+                    break;
                 }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(KayitYap.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            if (varMi) {
 
-                              
-        
+            } else {
 
+                Statement s2 = con.createStatement();
+                String sorgu2 = "INSERT INTO MUSTERI (TC,ISIM,SOYISIM,CINSIYET,TELEFON,EMAIL,DOGUM_TARIHI,PUAN, KART_ADI, KART_NO, KART_SKT_M, KART_SKT_Y) VALUES ("
+                + tc + ",'" + isim + "', '" + soyisim + "', '" + cinsiyet
+                + "','" + tel + "','" + mail + "','" + dogumTarihi + "'," + 0 + ",'" + str + "','" + str + "','" + str + "'," + 0 + ")";
+
+                s2.executeUpdate(sorgu2);
+                secilenId=txt_tc.getText();
+                btn_ileri.setEnabled(true);
+                btn_kayit.setEnabled(false);
+                temizler();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(KayitYap.class.getName()).log(Level.ALL.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btn_kayitActionPerformed
 
     private void btn_ileriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ileriActionPerformed
-        
 
-        Odeme.getInfo(secilenId);
+        OtelOdeme.getInfo(secilenId);
         
-        setVisible(false); 
+        setVisible(false);
         dispose();
-        new Odeme().setVisible(true);
+        new OtelOdeme().setVisible(true);
     }//GEN-LAST:event_btn_ileriActionPerformed
 
     public void temizler() {
@@ -410,7 +388,6 @@ public class KayitYap extends javax.swing.JFrame {
         jDateChooser_dogumTarihi.removeAll();
 
     }
-
     /**
      * @param args the command line arguments
      */
@@ -428,21 +405,20 @@ public class KayitYap extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(KayitYap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelKayit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(KayitYap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelKayit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(KayitYap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelKayit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(KayitYap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OtelKayit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new KayitYap().setVisible(true);
+                new OtelKayit().setVisible(true);
             }
         });
     }

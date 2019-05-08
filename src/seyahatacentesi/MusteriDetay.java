@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 import static seyahatacentesi.SonuclariListele.donusTarihi;
 import static seyahatacentesi.SonuclariListele.gelenFirma;
 import static seyahatacentesi.SonuclariListele.gidisTarihi;
-import static seyahatacentesi.SonuclariListele.kisiSayisi;
 import static seyahatacentesi.SonuclariListele.nereden;
 import static seyahatacentesi.SonuclariListele.nereye;
 import static seyahatacentesi.SonuclariListele.yon;
