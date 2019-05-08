@@ -16,6 +16,12 @@ verilmektedir. Bu puanları yönetim belirleyerek uygulamakta, istediğinde değ
 •Müşteri bilet ya da tatil rezervasyonu yaptığında, ödeme için biriken puanlarını da kullanabilir. 
 Bu durumda tutarda müşterinin puanı kadar indirim yapılır, indirilen tutar kadar puan silinir.
 
+•Kayıtlı olan müşterilerin bilgileri güncellenebilir.
+
+•Bilet ve rezervasyonlar görüntülenebilir.
+
+•Tablodan seçilen otelin detayları görüntülenebilir.
+
 
 <p>
  <img src="/EkranGörüntüleri/1.PNG" width="400" title="ANA EKRAN">
@@ -26,3 +32,7 @@ Bu durumda tutarda müşterinin puanı kadar indirim yapılır, indirilen tutar 
 <p>
   <img src="/EkranGörüntüleri/3.PNG" width="400" title="ÖDEME EKRANI">
 </p>
+<p>
+  <img src="/EkranGörüntüleri/4.PNG" width="400" title="OTEL SEÇME EKRANI">
+</p>
+
