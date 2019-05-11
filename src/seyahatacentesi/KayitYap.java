@@ -7,6 +7,7 @@ package seyahatacentesi;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,12 +16,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static seyahatacentesi.SonuclariListele.donusTarihi;
-import static seyahatacentesi.SonuclariListele.gelenFirma;
-import static seyahatacentesi.SonuclariListele.gidisTarihi;
-import static seyahatacentesi.SonuclariListele.nereden;
-import static seyahatacentesi.SonuclariListele.nereye;
-import static seyahatacentesi.SonuclariListele.yon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,8 +34,8 @@ public class KayitYap extends javax.swing.JFrame {
 //        kisiSayisi = sayi;
 //        System.out.println("SAYİ: " + kisiSayisi);
 //    }
-
     public static String secilenId;
+
     public KayitYap() {
         initComponents();
         setResizable(false);
@@ -325,28 +321,32 @@ public class KayitYap extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel6MousePressed
 
     private void btn_kayitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_kayitActionPerformed
-        String cinsiyet = "";
 
-        if (jRadioButton_kadin.isSelected()) {
-            cinsiyet = "KADIN";
-        } else if (jRadioButton_erkek.isSelected()) {
-            cinsiyet = "ERKEK";
-        }
+        if (txt_tc.getText().toString().length() != 11) {
+                JOptionPane.showMessageDialog(rootPane, "Kimlik numaranızı doğru giriniz.", "", HEIGHT);
+        } else {
 
-        String isim = txt_isim.getText();
-        String soyisim = txt_soyisim.getText();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        String dogumTarihi = sdf.format(jDateChooser_dogumTarihi.getDate());
-        String tc = txt_tc.getText();
-        String mail = txt_mail.getText();
-        String tel = txt_tel.getText();
+            String cinsiyet = "";
 
-        boolean varMi = false;
-        String str = "NULL";
+            if (jRadioButton_kadin.isSelected()) {
+                cinsiyet = "KADIN";
+            } else if (jRadioButton_erkek.isSelected()) {
+                cinsiyet = "ERKEK";
+            }
 
-     
+            String isim = txt_isim.getText();
+            String soyisim = txt_soyisim.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+            String dogumTarihi = sdf.format(jDateChooser_dogumTarihi.getDate());
+            String tc = txt_tc.getText();
+            String mail = txt_mail.getText();
+            String tel = txt_tel.getText();
+
+            boolean varMi = false;
+            String str = "NULL";
+
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 Statement s = con.createStatement();
 
                 String sorgu = "SELECT * FROM MUSTERI";
@@ -356,24 +356,26 @@ public class KayitYap extends javax.swing.JFrame {
                 while (rs.next()) {
                     if (rs.getString("TC").compareTo(tc) == 0) {
                         varMi = true;
-                        secilenId=txt_tc.getText();
+                        secilenId = txt_tc.getText();
                         break;
                     }
                 }
 
-               
                 if (varMi) {
-              
-                    
+
+                    secilenId = txt_tc.getText();
+                    btn_ileri.setEnabled(true);
+                    btn_kayit.setEnabled(false);
+                    temizler();
                 } else {
 
                     Statement s2 = con.createStatement();
                     String sorgu2 = "INSERT INTO MUSTERI (TC,ISIM,SOYISIM,CINSIYET,TELEFON,EMAIL,DOGUM_TARIHI,PUAN, KART_ADI, KART_NO, KART_SKT_M, KART_SKT_Y) VALUES ("
                             + tc + ",'" + isim + "', '" + soyisim + "', '" + cinsiyet
-                            + "','" + tel + "','" + mail + "','" + dogumTarihi + "'," + 0 + ",'" + str + "','" + str + "','" + str + "'," + 0 + ")";
+                            + "','" + tel + "','" + mail + "','" + dogumTarihi + "'," + 0 + ",'" + str + "'," + 0 + ",'" + str + "'," + 0 + ")";
 
                     s2.executeUpdate(sorgu2);
-                    secilenId=txt_tc.getText();
+                    secilenId = txt_tc.getText();
                     btn_ileri.setEnabled(true);
                     btn_kayit.setEnabled(false);
                     temizler();
@@ -383,19 +385,14 @@ public class KayitYap extends javax.swing.JFrame {
                 Logger.getLogger(KayitYap.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-
-                              
-        
-
-
+        }
     }//GEN-LAST:event_btn_kayitActionPerformed
 
     private void btn_ileriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ileriActionPerformed
-        
 
         Odeme.getInfo(secilenId);
-        
-        setVisible(false); 
+
+        setVisible(false);
         dispose();
         new Odeme().setVisible(true);
     }//GEN-LAST:event_btn_ileriActionPerformed

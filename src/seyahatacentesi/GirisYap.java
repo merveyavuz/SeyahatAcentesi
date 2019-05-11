@@ -202,7 +202,7 @@ public class GirisYap extends javax.swing.JFrame {
         } else {
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM ADMIN WHERE KULLANICI_ADI='" + txt_kAdi.getText() + "' and SIFRE='" + String.valueOf(jPasswordField1_sifre.getPassword()) + "'";
                 PreparedStatement stmt = con.prepareStatement(sorgu);
 

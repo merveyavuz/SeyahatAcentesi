@@ -17,11 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static seyahatacentesi.SonuclariListele.gelenFirma;
-import static seyahatacentesi.SonuclariListele.gidisTarihi;
-import static seyahatacentesi.SonuclariListele.nereden;
-import static seyahatacentesi.SonuclariListele.nereye;
-import static seyahatacentesi.SonuclariListele.yon;
 
 /**
  *
@@ -46,7 +41,7 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
         
         try {
             
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             
             String sorgu = "SELECT * FROM MUSTERI ";
             
@@ -230,7 +225,7 @@ public class MusteriListesiGoruntule extends javax.swing.JFrame {
         if (jTable_musteriler.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "SEÇİM YAPINIZ.", "UYARI...", HEIGHT);
         } else {
-            int id = Integer.parseInt(musteriDTM.getValueAt(jTable_musteriler.getSelectedRow(), 0).toString());
+            String id = musteriDTM.getValueAt(jTable_musteriler.getSelectedRow(), 0).toString();
             MusteriDetay.getInfo(id);
             setVisible(false); //you can't see me!
             dispose();

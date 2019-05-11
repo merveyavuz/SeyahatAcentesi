@@ -33,9 +33,9 @@ public class MusteriDetay extends javax.swing.JFrame {
     /**
      * Creates new form MusteriDetay
      */
-    public static int id;
+    public static String id;
 
-    public static void getInfo(int gelenId) {
+    public static void getInfo(String gelenId) {
 
         id = gelenId;
 
@@ -49,7 +49,7 @@ public class MusteriDetay extends javax.swing.JFrame {
 
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             String sorgu = "SELECT * FROM MUSTERI";
 
             Statement stmt = con.createStatement();
@@ -58,7 +58,7 @@ public class MusteriDetay extends javax.swing.JFrame {
 
             while (rs.next()) {
 
-                if (Integer.parseInt(rs.getString("TC")) == id) {
+                if (rs.getString("TC").compareTo(id)==0) {
 
                     lbl_isim.setText(rs.getString("ISIM"));
                     lbl_soyisim.setText(rs.getString("SOYISIM"));
@@ -284,7 +284,7 @@ public class MusteriDetay extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + id;
 
                 Statement stmt = con.createStatement();

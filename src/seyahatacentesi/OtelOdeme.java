@@ -32,7 +32,7 @@ public class OtelOdeme extends javax.swing.JFrame {
     /**
      * Creates new form OtelOdeme
      */
-    public static int tc;
+    public static String tc;
     public static int odaId;
     public static int kullanilacakPuan;
     public static boolean puanKullanabilir = false;
@@ -43,7 +43,7 @@ public class OtelOdeme extends javax.swing.JFrame {
     }
 
     public static void getInfo(String id) {
-        tc = Integer.parseInt(id);
+        tc = id;
 
     }
 
@@ -59,7 +59,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             String sorgu = "SELECT * FROM MUSTERI";
 
             Statement stmt = con.createStatement();
@@ -68,7 +68,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
             while (rs.next()) {
 
-                if (Integer.parseInt(rs.getString("TC")) == tc) {
+                if (rs.getString("TC").compareTo(tc) == 0) {
 
                     lbl_puan.setText("PUANINIZ: " + rs.getString("PUAN"));
                     break;
@@ -93,7 +93,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
 
                 Statement stmt = con.createStatement();
@@ -127,7 +127,7 @@ public class OtelOdeme extends javax.swing.JFrame {
             
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             String sorgu = "SELECT * FROM OTEL";
 
             Statement stmt = con.createStatement();
@@ -511,7 +511,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
                     Statement stmt = con.createStatement();
@@ -523,8 +523,8 @@ public class OtelOdeme extends javax.swing.JFrame {
                         isim = rs.getString("ISIM");
                         soyisim = rs.getString("SOYISIM");
 
-                        System.out.println("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO='" + kartNo + "', KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
-                        stmt.executeUpdate("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO='" + kartNo + "', KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
+                        System.out.println("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO=" + kartNo + ", KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
+                        stmt.executeUpdate("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO=" + kartNo + ", KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
 
                     }
 
@@ -537,7 +537,7 @@ public class OtelOdeme extends javax.swing.JFrame {
             //OTEL PUAN ALMA
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
 
                 Statement stmt = con.createStatement();
@@ -581,7 +581,7 @@ public class OtelOdeme extends javax.swing.JFrame {
                 int yeniPuan = eskiPuan - Integer.parseInt(jSpinner_puan.getValue().toString()) + otelPuan;
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
                     Statement stmt = con.createStatement();
@@ -601,7 +601,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
                     Statement stmt = con.createStatement();
@@ -623,7 +623,7 @@ public class OtelOdeme extends javax.swing.JFrame {
             //DURUM DEGISTIRME
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
 
                 Statement stmt = con.createStatement();
@@ -640,7 +640,7 @@ public class OtelOdeme extends javax.swing.JFrame {
             }
 
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 Statement s2 = con.createStatement();
                 String sql = "SELECT MAX(REZERVASYON_ID) MAX_ID FROM REZERVASYON";
                 ResultSet idMax = s2.executeQuery(sql);
@@ -651,9 +651,9 @@ public class OtelOdeme extends javax.swing.JFrame {
                 }
 
                 Statement s3 = con.createStatement();
-                String sorgu2 = "INSERT INTO REZERVASYON (REZERVASYON_ID, TC , ODA_ID , ISIM ,SOYISIM ,ODA_TIPI ,GIRIS_TARIHI,CIKIS_TARIHI, OTEL_FIRMA,FIYAT) VALUES ("
+                String sorgu2 = "INSERT INTO REZERVASYON (REZERVASYON_ID, TC , ODA_ID , ISIM ,SOYISIM ,ODA_TIPI ,GIRIS_TARIHI,CIKIS_TARIHI,FIYAT, OTEL_FIRMA) VALUES ("
                         + rezervasyonId + "," + tc + "," + odaId + ",'" + isim + "', '" + soyisim + "', '" + odaTipi
-                        + "','" + girisTarihi + "','" +firma+"','" + cikisTarihi + "'," + odenecekFiyat + ")";
+                        + "','" + girisTarihi + "','"  + cikisTarihi + "'," + odenecekFiyat +",'"+firma+    "')";
 
                 s3.executeUpdate(sorgu2);
 
@@ -690,7 +690,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM MUSTERI";
 
                 Statement stmt = con.createStatement();
@@ -699,7 +699,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
                 while (rs.next()) {
 
-                    if (Integer.parseInt(rs.getString("TC")) == tc) {
+                    if (rs.getString("TC").compareTo(tc) == 0) {
 
                         lbl_puan.setText("PUANINIZ: " + rs.getString("PUAN"));
                         break;
@@ -723,7 +723,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM OTEL WHERE ODA_ID=" + odaId;
 
                 Statement stmt = con.createStatement();
@@ -756,7 +756,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM OTEL";
 
                 Statement stmt = con.createStatement();
@@ -792,7 +792,7 @@ public class OtelOdeme extends javax.swing.JFrame {
 
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
             Statement stmt = con.createStatement();

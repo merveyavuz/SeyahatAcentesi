@@ -5,23 +5,17 @@
  */
 package seyahatacentesi;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 /**
  *
@@ -32,7 +26,7 @@ public class Odeme extends javax.swing.JFrame {
     /**
      * Creates new form Odeme
      */
-    public static int tc;
+    public static String tc;
     public static int seferId;
     public static int kullanilacakPuan;
     public static boolean puanKullanabilir = false;
@@ -43,7 +37,7 @@ public class Odeme extends javax.swing.JFrame {
     }
 
     public static void getInfo(String id) {
-        tc = Integer.parseInt(id);
+        tc = id;
 
     }
 
@@ -55,9 +49,10 @@ public class Odeme extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
+
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             String sorgu = "SELECT * FROM MUSTERI";
 
             Statement stmt = con.createStatement();
@@ -66,7 +61,7 @@ public class Odeme extends javax.swing.JFrame {
 
             while (rs.next()) {
 
-                if (Integer.parseInt(rs.getString("TC")) == tc) {
+                if (rs.getString("TC").compareTo(tc) == 0) {
 
                     lbl_puan.setText("PUANINIZ: " + rs.getString("PUAN"));
                     break;
@@ -80,7 +75,7 @@ public class Odeme extends javax.swing.JFrame {
 
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             String sorgu = "SELECT * FROM SEFER";
 
             Statement stmt = con.createStatement();
@@ -443,27 +438,27 @@ public class Odeme extends javax.swing.JFrame {
 
     private void jButton_SatinAlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SatinAlActionPerformed
 
+        int eskiPuan = 0;
+        int seferPuan = 0;
+        String isim = "";
+        String soyisim = "";
+        String firma = "";
+        String nereden = "";
+        String nereye = "";
+        String seferSaati = "";
+
         if (txt_kartAdi.getText().compareTo("") != 0 || txt_kartNo.getText().compareTo("") != 0) {
 
-            int eskiPuan = 0;
-            int seferPuan = 0;
-            String isim = "";
-            String soyisim = "";
-            String firma = "";
-            String nereden = "";
-            String nereye = "";
-            String seferSaati = "";
-
+            String kartAdi = txt_kartAdi.getText();
+            String kartNo = txt_kartNo.getText();
+            String ay = jComboBox_ay.getSelectedItem().toString();
+            int yil = jYearChooser_SKT.getYear();
             //MUSTERI KART BILGILERI SET
             if (txt_kartAdi.getText().compareTo("") != 0 || txt_kartNo.getText().compareTo("") != 0) {
-                String kartAdi = txt_kartAdi.getText();
-                String kartNo = txt_kartNo.getText();
-                String ay = jComboBox_ay.getSelectedItem().toString();
-                int yil = jYearChooser_SKT.getYear();
 
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
                     Statement stmt = con.createStatement();
@@ -475,8 +470,8 @@ public class Odeme extends javax.swing.JFrame {
                         isim = rs.getString("ISIM");
                         soyisim = rs.getString("SOYISIM");
 
-                        System.out.println("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO='" + kartNo + "', KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
-                        stmt.executeUpdate("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO='" + kartNo + "', KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
+                        System.out.println("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO=" + kartNo + ", KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
+                        stmt.executeUpdate("UPDATE MUSTERI SET KART_ADI='" + kartAdi + "', KART_NO=" + kartNo + ", KART_SKT_M='" + ay + "', KART_SKT_Y=" + yil + " WHERE TC=" + tc + "");
 
                     }
 
@@ -489,7 +484,7 @@ public class Odeme extends javax.swing.JFrame {
             //SEFER PUAN ALMA
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE SEFER_ID=" + seferId;
 
                 Statement stmt = con.createStatement();
@@ -514,7 +509,7 @@ public class Odeme extends javax.swing.JFrame {
                 int yeniPuan = eskiPuan - Integer.parseInt(jSpinner_puan.getValue().toString()) + seferPuan;
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
                     Statement stmt = con.createStatement();
@@ -534,7 +529,7 @@ public class Odeme extends javax.swing.JFrame {
 
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
                     Statement stmt = con.createStatement();
@@ -557,7 +552,7 @@ public class Odeme extends javax.swing.JFrame {
             int kontenjan = 0;
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE SEFER_ID=" + seferId;
 
                 Statement stmt = con.createStatement();
@@ -576,7 +571,7 @@ public class Odeme extends javax.swing.JFrame {
             }
 
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 Statement s2 = con.createStatement();
                 String sql = "SELECT MAX(BILET_ID) MAX_ID FROM BILET";
                 ResultSet idMax = s2.executeQuery(sql);
@@ -586,7 +581,12 @@ public class Odeme extends javax.swing.JFrame {
                     biletId = idMax.getInt("MAX_ID") + 1;
                 }
 
+                System.out.println(biletId);
+                System.out.println(tc);
+                System.out.println(isim);
+                System.out.println(soyisim);
                 Statement s3 = con.createStatement();
+
                 String sorgu2 = "INSERT INTO BILET (BILET_ID, TC , SEFER_ID , ISIM ,SOYISIM ,FIRMA ,NEREDEN,NEREYE, SEFER_SAATI) VALUES ("
                         + biletId + "," + tc + "," + seferId + ",'" + isim + "', '" + soyisim + "', '" + firma
                         + "','" + nereden + "','" + nereye + "','" + seferSaati + "')";
@@ -602,7 +602,7 @@ public class Odeme extends javax.swing.JFrame {
             dispose();
             new IslemSec().setVisible(true);
         } else {
-            
+
             JOptionPane.showMessageDialog(rootPane, "BOŞ ALANLARI DOLDURUNUZ.", "", HEIGHT);
         }
     }//GEN-LAST:event_jButton_SatinAlActionPerformed
@@ -626,7 +626,7 @@ public class Odeme extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM MUSTERI";
 
                 Statement stmt = con.createStatement();
@@ -635,7 +635,7 @@ public class Odeme extends javax.swing.JFrame {
 
                 while (rs.next()) {
 
-                    if (Integer.parseInt(rs.getString("TC")) == tc) {
+                    if (rs.getString("TC").compareTo(tc) == 0) {
 
                         lbl_puan.setText("PUANINIZ: " + rs.getString("PUAN"));
                         break;
@@ -649,7 +649,7 @@ public class Odeme extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER";
 
                 Statement stmt = con.createStatement();
@@ -681,7 +681,7 @@ public class Odeme extends javax.swing.JFrame {
 
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             String sorgu = "SELECT * FROM MUSTERI WHERE TC=" + tc;
 
             Statement stmt = con.createStatement();

@@ -332,7 +332,7 @@ public class OtelKayit extends javax.swing.JFrame {
         String str = "NULL";
 
         try {
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             Statement s = con.createStatement();
 
             String sorgu = "SELECT * FROM MUSTERI";
@@ -348,13 +348,16 @@ public class OtelKayit extends javax.swing.JFrame {
             }
 
             if (varMi) {
-
+                secilenId = txt_tc.getText();
+                btn_ileri.setEnabled(true);
+                btn_kayit.setEnabled(false);
+                temizler();
             } else {
 
                 Statement s2 = con.createStatement();
                 String sorgu2 = "INSERT INTO MUSTERI (TC,ISIM,SOYISIM,CINSIYET,TELEFON,EMAIL,DOGUM_TARIHI,PUAN, KART_ADI, KART_NO, KART_SKT_M, KART_SKT_Y) VALUES ("
                 + tc + ",'" + isim + "', '" + soyisim + "', '" + cinsiyet
-                + "','" + tel + "','" + mail + "','" + dogumTarihi + "'," + 0 + ",'" + str + "','" + str + "','" + str + "'," + 0 + ")";
+                + "','" + tel + "','" + mail + "','" + dogumTarihi + "'," + 0 + ",'" + str + "'," + 0 + ",'" + str + "'," + 0 + ")";
 
                 s2.executeUpdate(sorgu2);
                 secilenId=txt_tc.getText();

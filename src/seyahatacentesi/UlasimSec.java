@@ -337,7 +337,7 @@ public class UlasimSec extends javax.swing.JFrame {
         if (radiobtn_otobus.isSelected()) {
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='OTOBUS' AND KONTENJAN>" + 0 + "";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
@@ -347,6 +347,8 @@ public class UlasimSec extends javax.swing.JFrame {
                 while (rs.next()) {
 
                     String value = rs.getString("FIRMA");
+                    
+                    
                     jComboBox_firmalar.addItem(value);
 
                 }
@@ -375,7 +377,7 @@ public class UlasimSec extends javax.swing.JFrame {
         if (radiobtn_havayolu.isSelected()) {
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT *FROM SEFER WHERE SEFER_TIPI='UCAK' AND KONTENJAN>" + 0 + "";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
@@ -411,7 +413,7 @@ public class UlasimSec extends javax.swing.JFrame {
         if (jRadioButton_gidis.isSelected()) {
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS'  AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString() + "'";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
@@ -450,7 +452,7 @@ public class UlasimSec extends javax.swing.JFrame {
         if (jRadioButton_gidisDonus.isSelected()) {
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS-DONUS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString() + "'";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
@@ -500,7 +502,7 @@ public class UlasimSec extends javax.swing.JFrame {
             if (jRadioButton_gidisDonus.isSelected()) {
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS-DONUS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString()
                             + "' AND GIDIS_TARIHI='" + gidisTarihi + "' AND DONUS_TARIHI='" + donusTarihi + "'";
 
@@ -521,7 +523,7 @@ public class UlasimSec extends javax.swing.JFrame {
             if (jRadioButton_gidis.isSelected()) {
                 try {
 
-                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                    Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                     String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString()
                             + "' AND GIDIS_TARIHI='" + gidisTarihi + "'";
 
@@ -573,7 +575,7 @@ public class UlasimSec extends javax.swing.JFrame {
         if (jRadioButton_gidis.isSelected()) {
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString() + "'";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);
@@ -597,7 +599,7 @@ public class UlasimSec extends javax.swing.JFrame {
         if (jRadioButton_gidisDonus.isSelected()) {
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE YON='GIDIS-DONUS' AND FIRMA='" + jComboBox_firmalar.getSelectedItem().toString() + "'";
 
                 PreparedStatement stmt = con.prepareStatement(sorgu);

@@ -60,7 +60,7 @@ public class SonuclariListele extends javax.swing.JFrame {
             seferDTM.setColumnIdentifiers(new String[]{"SEFER ID", "FIRMA", "GİDİŞ TARİHİ", "NEREDEN", "NEREYE", "SAAT", "FİYAT", "PUAN"});
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE YON='" + yon + "' AND FIRMA='" + gelenFirma
                         + "' AND NEREDEN='" + nereden + "' AND NEREYE='" + nereye + "' AND GIDIS_TARIHI='" + gidisTarihi + "'";
 
@@ -85,7 +85,7 @@ public class SonuclariListele extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM SEFER WHERE YON='" + yon + "' AND FIRMA='" + gelenFirma
                         + "' AND NEREDEN='" + nereden + "' AND NEREYE='" + nereye + "' AND GIDIS_TARIHI='" + gidisTarihi + "'";
 

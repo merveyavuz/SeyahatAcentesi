@@ -38,7 +38,7 @@ public class BiletleriGoruntule extends javax.swing.JFrame {
         
         try {
             
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
             
             String sorgu = "SELECT * FROM BILET ";
             

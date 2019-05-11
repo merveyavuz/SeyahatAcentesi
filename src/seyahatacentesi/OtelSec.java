@@ -42,25 +42,7 @@ public class OtelSec extends javax.swing.JFrame {
         jTable_oteller.setModel(otelDTM);
         otelDTM.setColumnIdentifiers(new String[]{"ODA ID", "OTEL FIRMA", "SEHIR", "ODA TIPI", "GIRIS TARIHI", "CIKIS TARIHI", "FIYAT"});
 
-        try {
-
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
-
-            String sorgu = "SELECT * FROM OTEL WHERE DURUM='Kiralanmamış'";
-
-            PreparedStatement stmt = con.prepareStatement(sorgu);
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-
-                otelDTM.addRow(new String[]{rs.getString(3), rs.getString(2), rs.getString(10), rs.getString(4), rs.getString(7), rs.getString(8), rs.getString(6)});
-
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        tabloyuYenile();
     }
 
     /**
@@ -177,7 +159,7 @@ public class OtelSec extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 51, 153));
         jLabel5.setText("ODA TİPİ");
 
-        jComboBox_odaTipi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tek Kişilik", "Çift Kişilik", "Aile Odaları" }));
+        jComboBox_odaTipi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tek Kişilik", "Çift Kişilik", "Aile Odası" }));
 
         jTable_oteller.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -392,19 +374,21 @@ public class OtelSec extends javax.swing.JFrame {
 
             try {
 
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SeyahatAcentesiDB", "sa", "as");
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
                 String sorgu = "SELECT * FROM OTEL WHERE SEHIR='" + il + "' AND ODA_TIPI='" + odaTipi + "' AND GIRIS_TARIHI='" + girisTarihi + "' AND CIKIS_TARIHI='" + cikisTarihi + "' AND DURUM='Kiralanmamış'";
 
                 Statement stmt = con.createStatement();
 
                 ResultSet rs = stmt.executeQuery(sorgu);
 
+                boolean isEmpty=true;
                 while (rs.next()) {
                     otelDTM.addRow(new String[]{rs.getString(3), rs.getString(2), rs.getString(10), rs.getString(4), rs.getString(7), rs.getString(8), rs.getString(6)});
+                    isEmpty=false;
                 }
-                if (rs.next() == false) {
-
+                if (isEmpty) {
                     JOptionPane.showMessageDialog(rootPane, "Aradığınız kriterlerde oda bulunmamaktadır.");
+                    tabloyuYenile();
 
                 }
 
@@ -459,6 +443,30 @@ public class OtelSec extends javax.swing.JFrame {
 
     public void resetColor(JPanel panel) {
         panel.setBackground(new java.awt.Color(240, 240, 240));
+    }
+
+    public void tabloyuYenile() {
+        otelDTM.setRowCount(0);
+        try {
+
+            Connection con2 = DriverManager.getConnection("jdbc:derby://localhost:1527/SADB", "sa", "as");
+
+            String sorgu2 = "SELECT * FROM OTEL WHERE DURUM='Kiralanmamış'";
+
+            PreparedStatement stmt2 = con2.prepareStatement(sorgu2);
+
+            ResultSet rs2 = stmt2.executeQuery();
+
+            while (rs2.next()) {
+
+                otelDTM.addRow(new String[]{rs2.getString(3), rs2.getString(2), rs2.getString(10), rs2.getString(4), rs2.getString(7), rs2.getString(8), rs2.getString(6)});
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GirisYap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
