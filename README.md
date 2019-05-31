@@ -11,7 +11,7 @@ uygun alternatifleri müşteriye sunacaktır. Müşterinin seçtiği zaman ve ot
  
 •Müşterilere aldıkları biletler ve tatillere göre belirli puanlar verilmektedir. 
 Örneğin Uçan Türk havayolları ile alınan biletler sayesinde ücretin %1’i, alınan tatillerde otele göre gün bazında ücretin %2’si puan 
-verilmektedir. Bu puanları yönetim belirleyerek uygulamakta, istediğinde değiştirmektedir.  
+verilmektedir.
  
 •Müşteri bilet ya da tatil rezervasyonu yaptığında, ödeme için biriken puanlarını da kullanabilir. 
 Bu durumda tutarda müşterinin puanı kadar indirim yapılır, indirilen tutar kadar puan silinir.
